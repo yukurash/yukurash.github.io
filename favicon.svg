@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="g" x1="14" y1="12" x2="50" y2="52" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#28e6ff"/>
+      <stop offset="1" stop-color="#b8ff3a"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="1.6" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- dark rounded base -->
+  <rect x="0" y="0" width="64" height="64" rx="14" fill="#06070d"/>
+  <rect x="1.25" y="1.25" width="61.5" height="61.5" rx="12.75" fill="none" stroke="#28e6ff" stroke-opacity="0.18" stroke-width="1.5"/>
+
+  <!-- neon Y monogram -->
+  <g fill="none" stroke="url(#g)" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)">
+    <path d="M17 16 L32 35"/>
+    <path d="M47 16 L32 35"/>
+    <path d="M32 35 L32 49"/>
+  </g>
+
+  <!-- lime pulse dot accent -->
+  <circle cx="32" cy="49" r="3.4" fill="#b8ff3a" filter="url(#glow)"/>
+</svg>
