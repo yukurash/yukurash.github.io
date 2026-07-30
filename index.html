@@ -8,138 +8,153 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Chivo+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Chivo+Mono:wght@400;600&display=swap" rel="stylesheet" />
 <style>
 :root{
-  --steel:  #e6e7ea;
-  --steel-2:#d6d8dc;
-  --ink:    #15171b;
-  --slab:   #1a1d22;
-  --cell:   #22262d;
-  --line:   #333944;
-  --white:  #fbfbfc;
-  --on-dark:#e8eaee;
-  --mute-d: #9aa0aa;
-  --mute-l: #5c6068;
-  --red:    #d81b30;
+  --paper:  #f2f2ef;
+  --paper-2:#e4e4e0;
+  --ink:    #16171a;
+  --card:   #ffffff;
+  --line:   #cfcfc9;
+  --mute:   #6a6c72;
+  --mute-d: #9b9da4;
+  --red:    #ff2d20;
+  --blue:   #1b48ff;
+  /* every filled surface is this deep teal — black read as a hole in the paper */
+  --fill:   #12504e;
+  --on-fill:#a8c4c2;
+  --on-fill-2:#8fbfbc;
 
-  --f-disp:"Big Shoulders Display", sans-serif;
+  --f-disp:"Archivo Black", sans-serif;
   --f-body:"Zen Kaku Gothic New", sans-serif;
   --f-mono:"Chivo Mono", monospace;
 
   --gap:10px;
+  --ease:cubic-bezier(.22,.9,.28,1);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
 body{
-  background:var(--steel); color:var(--ink);
+  background:var(--paper); color:var(--ink);
   font-family:var(--f-body); font-weight:400; line-height:1.8;
   -webkit-font-smoothing:antialiased; overflow-x:hidden;
 }
 a{color:inherit;text-decoration:none}
 ul,ol{list-style:none}
-::selection{background:var(--red);color:var(--white)}
-:focus-visible{outline:2px solid var(--red); outline-offset:3px}
+::selection{background:var(--red);color:#fff}
+:focus-visible{outline:2px solid var(--blue); outline-offset:3px}
 
 .wrap{max-width:1320px; margin:0 auto; padding:34px 24px 0}
 
-/* ============ section shell — profile / works / writing all use this ============ */
-.sect{margin-bottom:38px}
+/* everything arrives, nothing jitters */
+@keyframes rise{from{opacity:0; transform:translateY(14px)}to{opacity:1; transform:none}}
+@keyframes sweep{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes pop{0%{transform:scale(.72) rotate(-9deg)}60%{transform:scale(1.14) rotate(3deg)}to{transform:none}}
+
+/* ============ section shell ============ */
+.sect{margin-bottom:40px; animation:rise .5s var(--ease) both}
+.sect:nth-of-type(2){animation-delay:.06s}
+.sect:nth-of-type(3){animation-delay:.12s}
 .sect-h{
   display:grid; grid-template-columns:minmax(0,1fr) auto; gap:4px 32px; align-items:end;
-  border-bottom:2px solid var(--ink); padding-bottom:12px; margin-bottom:16px;
+  padding-bottom:14px; margin-bottom:18px; position:relative;
+}
+.sect-h::after{
+  content:""; position:absolute; left:0; right:0; bottom:0; height:3px; background:var(--ink);
+  transform-origin:left; animation:sweep .7s var(--ease) both .15s;
 }
 @media(max-width:640px){.sect-h{grid-template-columns:1fr; align-items:start}}
 .kick{
   display:block; font-family:var(--f-mono); font-weight:600; font-size:11px;
-  letter-spacing:.22em; color:var(--red); text-transform:none; margin-bottom:11px;
+  letter-spacing:.22em; color:var(--red); margin-bottom:12px;
 }
 .sect-t{
-  font-family:var(--f-disp); font-weight:800; text-transform:uppercase;
-  font-size:clamp(34px,5.2vw,60px); line-height:.9; letter-spacing:.01em;
+  font-family:var(--f-disp); font-weight:400; text-transform:uppercase;
+  font-size:clamp(28px,4.2vw,50px); line-height:.94; letter-spacing:-.02em;
 }
 .sect-m{
-  font-family:var(--f-mono); font-size:11px; letter-spacing:.16em; color:var(--mute-l);
+  font-family:var(--f-mono); font-size:11px; letter-spacing:.16em; color:var(--mute);
   text-align:right; padding-bottom:5px;
 }
 @media(max-width:640px){.sect-m{text-align:left; padding-bottom:0}}
 .sect-m b{
-  font-family:var(--f-disp); font-weight:800; font-size:21px; letter-spacing:0;
-  color:var(--ink); margin-right:3px; vertical-align:-1px;
+  font-family:var(--f-disp); font-weight:400; font-size:20px; letter-spacing:-.02em;
+  color:var(--ink); margin-right:4px; vertical-align:-1px;
 }
-.sect-note{font-size:14px; color:var(--mute-l); margin-bottom:14px}
-.sect-note b{color:var(--ink); font-weight:500}
+.sect-note{font-size:14px; color:var(--mute); margin-bottom:16px}
+.sect-note b{color:var(--ink); font-weight:500; box-shadow:inset 0 -7px 0 rgba(255,45,32,.18)}
+.ptext{font-size:15px; line-height:2; color:#2c2e33}
 
-/* the one container shape the page repeats */
 .box{border:2px solid var(--ink); padding:20px 22px}
 .box.flush{padding:0}
-.ptext{font-size:14.5px; line-height:1.95; color:#2b2e34}
 
 /* ============ select screen ============ */
-.screen{display:grid; grid-template-columns:minmax(0,1fr) minmax(330px,404px); gap:14px; align-items:start}
+.screen{display:grid; grid-template-columns:minmax(0,1fr) minmax(330px,404px); gap:16px; align-items:start}
 @media(max-width:1080px){.screen{grid-template-columns:1fr}}
 
-/* ---- roster slab ---- */
-.slab{background:var(--slab); padding:14px 14px 4px; border:2px solid var(--ink)}
-.group{margin-bottom:16px}
+/* ---- roster on paper ---- */
+.slab{background:var(--paper-2); padding:16px 16px 6px; border:2px solid var(--ink)}
+.group{margin-bottom:18px}
 .glabel{
-  display:flex; align-items:center; gap:12px; padding:0 0 8px;
-  font-family:var(--f-mono); font-size:10.5px; letter-spacing:.16em; color:var(--mute-d);
+  display:flex; align-items:center; gap:12px; padding:0 0 10px;
+  font-family:var(--f-mono); font-size:10.5px; letter-spacing:.16em; color:var(--mute);
 }
-.glabel .bar{flex:1; height:1px; background:var(--line)}
-/* every genre uses the same track size, so a 1-card genre and a 2-card genre
-   produce cards of exactly the same width */
+.glabel .bar{flex:1; height:2px; background:var(--ink); transform-origin:left; animation:sweep .8s var(--ease) both .3s}
 .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(232px,1fr)); gap:var(--gap)}
 @media(max-width:700px){.grid{grid-template-columns:1fr; gap:0}}
 
-/* article link — the panel carries it on desktop, each card carries its own on mobile */
 .artlink{display:none}
 
 .cell{
-  position:relative; background:var(--cell); border:1px solid var(--line);
-  color:var(--on-dark); padding:12px 13px 13px; min-width:0; cursor:pointer;
+  position:relative; background:var(--card); border:2px solid var(--ink);
+  color:var(--ink); padding:12px 13px 13px; min-width:0; cursor:pointer;
   display:grid; grid-template-columns:34px minmax(0,1fr) auto; gap:0 12px;
   grid-template-areas:"em nm mk" "em ja mk"; align-items:center;
-  user-select:none; -webkit-user-select:none;   /* double-click opens; never select text */
+  user-select:none; -webkit-user-select:none;
+  transition:transform .16s var(--ease), box-shadow .16s var(--ease), background .16s;
+  animation:rise .45s var(--ease) both; animation-delay:calc(var(--i,0)*38ms + .18s);
 }
-.cell .em{grid-area:em; align-self:center; display:grid; place-items:center}
+.cell .em{grid-area:em; align-self:center; display:grid; place-items:center; transition:transform .2s var(--ease)}
+.cell:hover .em{transform:rotate(-8deg) scale(1.12)}
 .cell .em svg{width:32px; height:auto; display:block}
 .cell .nm{
   grid-area:nm; align-self:end;
-  font-family:var(--f-disp); font-weight:700; font-size:16.5px;
-  letter-spacing:.02em; line-height:1.05; text-transform:uppercase; overflow-wrap:anywhere;
+  font-family:var(--f-mono); font-weight:600; font-size:13.5px;
+  letter-spacing:-.01em; line-height:1.2; overflow-wrap:anywhere;
 }
 .cell .ja{
   grid-area:ja; align-self:start;
-  font-size:11.5px; line-height:1.55; color:var(--mute-d); margin-top:4px;
+  font-size:11.5px; line-height:1.55; color:var(--mute); margin-top:4px;
   display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; line-clamp:2; overflow:hidden;
 }
-.cell .mk{grid-area:mk; align-self:start; text-align:right; display:grid; gap:4px}
+.cell .mk{grid-area:mk; align-self:start; text-align:right; display:grid; gap:4px; justify-items:end}
 .cell .id{font-family:var(--f-mono); font-weight:600; font-size:10px; letter-spacing:.12em; color:var(--mute-d)}
 .cell .doc{display:none}
 .cell[data-art] .doc{
   display:block; font-family:var(--f-mono); font-size:9px; letter-spacing:.1em;
-  color:var(--mute-d); border:1px solid var(--line); padding:1px 4px;
+  color:var(--red); border:1px solid var(--red); padding:1px 4px;
 }
 .cell .cd{display:none}
 
-.cell:hover{background:#2a2f38; border-color:#4a5260}
-.cell[aria-current="true"]{background:var(--white); color:var(--ink); border-color:var(--white)}
-.cell[aria-current="true"] .id{color:var(--red)}
-.cell[aria-current="true"] .ja{color:var(--mute-l)}
-.cell[aria-current="true"] .doc{color:var(--mute-l); border-color:#b9bcc2}
-.cell[aria-current="true"]::after{
-  content:""; position:absolute; inset:-5px; border:2px solid var(--red); pointer-events:none;
+.cell:hover{transform:translate(-3px,-3px); box-shadow:6px 6px 0 var(--ink)}
+.cell[aria-current="true"]{
+  background:var(--fill); color:var(--paper); border-color:var(--fill);
+  transform:translate(-3px,-3px); box-shadow:6px 6px 0 var(--red);
 }
+.cell[aria-current="true"] .ja{color:var(--on-fill)}
+.cell[aria-current="true"] .id{color:var(--on-fill-2)}
+.cell[aria-current="true"] .doc{color:var(--paper); border-color:var(--paper)}
+.cell[aria-current="true"] .em{animation:pop .42s var(--ease)}
 .cell:focus-visible{outline:none}
 .cell:focus-visible::before{
-  content:""; position:absolute; inset:-9px; border:1px solid var(--red); pointer-events:none;
+  content:""; position:absolute; inset:-8px; border:2px solid var(--blue); pointer-events:none;
 }
 
-/* ---- detail panel ---- */
+/* ---- detail panel: fields land one after another ---- */
 .panel{
-  border:2px solid var(--ink); padding:22px 22px 20px;
+  border:2px solid var(--ink); background:var(--card); padding:22px 22px 20px;
   position:sticky; top:16px; max-height:calc(100vh - 32px); overflow:auto;
+  box-shadow:8px 8px 0 var(--ink);
 }
 @media(max-width:1080px){.panel{position:static; max-height:none}}
 .panel .pid{
@@ -147,92 +162,123 @@ ul,ol{list-style:none}
   font-family:var(--f-mono); font-size:11px; letter-spacing:.14em; font-weight:600;
   padding-bottom:12px; border-bottom:2px solid var(--red);
 }
-.panel .pid .st{color:var(--mute-l); letter-spacing:.08em; font-weight:400; text-align:right}
+.panel .pid .st{color:var(--mute); letter-spacing:.08em; font-weight:400; text-align:right}
 .panel h2{
-  font-family:var(--f-disp); font-weight:800; text-transform:uppercase;
-  font-size:clamp(30px,3.5vw,44px); line-height:.98; letter-spacing:.01em;
+  font-family:var(--f-disp); font-weight:400; text-transform:none;
+  font-size:clamp(22px,2.5vw,32px); line-height:1.04; letter-spacing:-.025em;
   margin:18px 0 6px; overflow-wrap:anywhere;
 }
-.panel h2.cut{animation:wipe .11s steps(3) 1}
-@keyframes wipe{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0)}}
-.panel .pja{font-size:13.5px; color:var(--mute-l); margin-bottom:18px}
+/* the name is typed in, so the wipe would only fight it */
+.panel h2.cut{animation:none}
+.panel h2.typing::after{content:"▌"; color:var(--red); margin-left:1px}
+.panel .pja{font-size:13.5px; color:var(--mute); margin-bottom:18px}
 
-.stats{display:grid; gap:1px; background:var(--steel-2); margin-bottom:18px}
-.stats div{display:grid; grid-template-columns:106px minmax(0,1fr); gap:12px; background:var(--steel); padding:8px 0}
+/* the loader: a bar fills across the panel while the fields come in */
+.ldbar{
+  display:block; height:3px; margin:-22px -22px 13px; background:var(--red);
+  transform:scaleX(0); transform-origin:left;
+}
+.panel.fx .ldbar{animation:load 1.15s var(--ease) forwards}
+@keyframes load{
+  0%{transform:scaleX(0); opacity:1}
+  84%{transform:scaleX(1); opacity:1}
+  100%{transform:scaleX(1); opacity:0}
+}
+
+/* the stagger: JS re-adds .fx to the panel on every selection.
+   slow enough to read as loading, short enough to never be in the way */
+.panel.fx .pja,
+.panel.fx .stats div,
+.panel.fx .go,
+.panel.fx .art{animation:rise .42s var(--ease) both}
+.panel.fx .pja{animation-delay:.08s}
+.panel.fx .stats div:nth-child(1){animation-delay:.2s}
+.panel.fx .stats div:nth-child(2){animation-delay:.32s}
+.panel.fx .stats div:nth-child(3){animation-delay:.44s}
+.panel.fx .pdesc{animation:reveal .62s var(--ease) both .56s}
+.panel.fx .go{animation-delay:.76s}
+.panel.fx .art{animation-delay:.88s}
+@keyframes reveal{from{clip-path:inset(0 100% 0 0); opacity:.25}to{clip-path:inset(0); opacity:1}}
+
+.stats{display:grid; gap:1px; background:var(--line); margin-bottom:18px}
+.stats div{display:grid; grid-template-columns:106px minmax(0,1fr); gap:12px; background:var(--card); padding:8px 0}
 @media(max-width:420px){.stats div{grid-template-columns:1fr; gap:0}}
-.stats dt{font-family:var(--f-mono); font-size:10.5px; letter-spacing:.14em; color:var(--mute-l); padding-top:3px}
+.stats dt{font-family:var(--f-mono); font-size:10.5px; letter-spacing:.14em; color:var(--mute); padding-top:3px}
 .stats dd{font-size:13.5px; overflow-wrap:anywhere; white-space:pre-line}
 .stats dd.mono{font-family:var(--f-mono); font-size:12px}
 
-.panel .pdesc{font-size:13.5px; line-height:1.95; color:#2b2e34}
+.panel .pdesc{font-size:13.5px; line-height:1.95; color:#2c2e33}
 .panel .go{
   display:flex; align-items:center; justify-content:space-between; gap:14px; margin-top:20px;
   border:2px solid var(--ink); padding:12px 15px;
   font-family:var(--f-mono); font-size:12px; letter-spacing:.1em; font-weight:600;
+  transition:transform .14s var(--ease), box-shadow .14s var(--ease), background .14s;
 }
-.panel .go:hover{background:var(--ink); color:var(--steel)}
-.panel .go .host{font-weight:400; letter-spacing:.04em; color:var(--mute-l); font-size:11px}
-.panel .go:hover .host{color:var(--steel-2)}
+.panel .go:hover{background:var(--fill); color:var(--paper); transform:translate(-2px,-2px); box-shadow:4px 4px 0 var(--red)}
+.panel .go .host{font-weight:400; letter-spacing:.04em; color:var(--mute); font-size:11px}
+.panel .go:hover .host{color:var(--on-fill)}
 .panel .art{
   display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:12px; align-items:baseline;
-  margin-top:8px; border:1px solid var(--ink); border-top:0; padding:11px 15px;
+  margin-top:10px; border:2px solid var(--ink); padding:11px 15px;
+  transition:transform .14s var(--ease), box-shadow .14s var(--ease), background .14s;
 }
-/* a work without a write-up must hide this row outright — [hidden] has to beat display:grid */
 .panel .art[hidden]{display:none}
-.panel .art .lb{font-family:var(--f-mono); font-size:10.5px; letter-spacing:.14em; color:var(--mute-l)}
+.panel .art .lb{font-family:var(--f-mono); font-size:10.5px; letter-spacing:.14em; color:var(--mute)}
 .panel .art .tt{font-size:12.5px; line-height:1.6}
-.panel .art:hover{background:var(--ink); color:var(--steel)}
-.panel .art:hover .lb{color:var(--steel-2)}
+.panel .art:hover{background:var(--fill); color:var(--paper); transform:translate(-2px,-2px); box-shadow:4px 4px 0 var(--blue)}
+.panel .art:hover .lb{color:var(--on-fill)}
 .keys{
-  margin-top:14px; font-family:var(--f-mono); font-size:10.5px; letter-spacing:.12em; color:var(--mute-l);
+  margin-top:16px; font-family:var(--f-mono); font-size:10.5px; letter-spacing:.12em; color:var(--mute);
   display:flex; gap:14px; flex-wrap:wrap;
 }
 .keys b{font-weight:600; color:var(--ink)}
 @media(max-width:1080px){.keys{display:none}}
 
-/* ============ mobile: no panel, so each card carries its own copy and link ============ */
+/* ============ mobile ============ */
 @media(max-width:700px){
   .slab{padding:12px 12px 2px}
   .cell{
     padding:14px; grid-template-columns:40px minmax(0,1fr);
     grid-template-areas:"em nm" "em ja" "cd cd"; margin-top:10px;
   }
+  .cell:hover{transform:none; box-shadow:none}
   .grid > .cell:first-child{margin-top:0}
   .cell .em svg{width:34px}
-  .cell .nm{font-size:17px; padding-right:52px}
+  .cell .nm{font-size:15px; padding-right:52px}
   .cell .ja{font-size:12px; -webkit-line-clamp:3; line-clamp:3; padding-right:52px}
-  .cell .cd{grid-area:cd; display:block; font-size:12.5px; line-height:1.8; color:#b6bcc6; margin-top:8px}
-  .cell[aria-current="true"] .cd{color:#3a3e45}
+  .cell .cd{grid-area:cd; display:block; font-size:12.5px; line-height:1.8; color:var(--mute); margin-top:8px}
+  .cell[aria-current="true"]{transform:none; box-shadow:none}
+  .cell[aria-current="true"] .cd{color:var(--on-fill)}
   .cell .mk{position:absolute; top:14px; right:14px}
   .panel{display:none}
   .cell + .artlink{
     display:flex; justify-content:space-between; align-items:center; gap:12px;
-    border:1px solid var(--line); border-top:0; padding:11px 14px; background:#1d2026;
-    font-family:var(--f-mono); font-size:11px; letter-spacing:.1em; color:var(--mute-d);
+    border:2px solid var(--ink); border-top:0; padding:11px 14px; background:var(--paper);
+    font-family:var(--f-mono); font-size:11px; letter-spacing:.1em; color:var(--red);
   }
-  .cell + .artlink:hover{background:var(--cell); color:var(--on-dark)}
 }
 
 /* ============ reads ============ */
-/* one box, split by rules of the same weight as the border */
 .reads ul{display:grid; grid-template-columns:repeat(3,1fr); gap:2px; background:var(--ink)}
 @media(max-width:760px){.reads ul{grid-template-columns:1fr}}
-.reads a{display:block; background:var(--steel); padding:18px 20px 16px}
-.reads a:hover{background:var(--ink); color:var(--steel)}
-.reads h3{font-family:var(--f-disp); font-weight:700; font-size:21px; text-transform:uppercase; letter-spacing:.03em;
+.reads a{display:block; background:var(--paper); padding:18px 20px 16px; transition:background .14s}
+.reads a:hover{background:var(--fill); color:var(--paper)}
+.reads h3{font-family:var(--f-disp); font-weight:400; font-size:19px; text-transform:uppercase; letter-spacing:-.02em;
   display:flex; justify-content:space-between; align-items:center}
-.reads p{font-size:12.5px; color:var(--mute-l); margin-top:2px}
-.reads a:hover p{color:var(--steel-2)}
-.reads .h{font-family:var(--f-mono); font-size:10.5px; letter-spacing:.06em; margin-top:10px; display:block; color:var(--mute-l)}
-.reads a:hover .h{color:var(--steel-2)}
+.reads p{font-size:12.5px; color:var(--mute); margin-top:4px}
+.reads a:hover p{color:var(--on-fill)}
+.reads .h{font-family:var(--f-mono); font-size:10.5px; letter-spacing:.06em; margin-top:10px; display:block; color:var(--mute)}
+.reads a:hover .h{color:var(--on-fill)}
 
+/* no rule here — the reads box already closes the page */
 footer{
-  margin-top:10px; border-top:1px solid var(--ink); padding:16px 0 46px;
-  font-family:var(--f-mono); font-size:11px; letter-spacing:.06em; color:var(--mute-l);
+  padding:2px 0 46px;
+  font-family:var(--f-mono); font-size:11px; letter-spacing:.06em; color:var(--mute);
 }
 
 @media (prefers-reduced-motion:reduce){
   *{animation:none !important; transition:none !important}
+  .sect-h::after,.glabel .bar{transform:none}
 }
 </style>
 </head>
@@ -680,6 +726,74 @@ addEventListener('keydown', e => {
 });
 
 paint(0);
+</script>
+<script>
+/* choreography: the panel loads its fields in rather than swapping them */
+(function(){
+  const slab  = document.querySelector('.slab');
+  const panel = document.querySelector('.panel');
+  const nm    = document.getElementById('p-nm');
+  const pid   = document.getElementById('p-id');
+  const calm  = matchMedia('(prefers-reduced-motion:reduce)');
+
+  slab.querySelectorAll('.cell').forEach((c,i) => c.style.setProperty('--i', i));
+
+  const bar = document.createElement('span');
+  bar.className = 'ldbar';
+  panel.prepend(bar);
+
+  const GLYPH = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const rnd = () => GLYPH[Math.floor(Math.random()*GLYPH.length)];
+  let typing = null, rolling = null;
+
+  /* the work's name arrives a character at a time */
+  function type(el){
+    clearInterval(typing);
+    const full = el.textContent;
+    el.classList.add('typing');
+    el.textContent = '';
+    let i = 0;
+    typing = setInterval(() => {
+      el.textContent = full.slice(0, ++i);
+      if(i >= full.length){ clearInterval(typing); el.classList.remove('typing'); }
+    }, 27);
+  }
+
+  /* the two-letter code rolls until it settles, like a split-flap */
+  function roll(el){
+    clearInterval(rolling);
+    const full = el.textContent;
+    let n = 0;
+    rolling = setInterval(() => {
+      n++;
+      el.textContent = [...full].map((ch,j) => n > 4 + j*4 ? ch : rnd()).join('');
+      if(n > 4 + full.length*4){ clearInterval(rolling); el.textContent = full; }
+    }, 36);
+  }
+
+  function fx(){
+    panel.classList.remove('fx');
+    void panel.offsetWidth;
+    panel.classList.add('fx');
+    if(calm.matches) return;
+    type(nm);
+    roll(pid);
+  }
+
+  new MutationObserver(fx).observe(slab,{subtree:true, attributes:true, attributeFilter:['aria-current']});
+
+  /* the tally counts itself up once, on arrival */
+  const tally = document.querySelector('.sect-m b');
+  if(tally && !calm.matches){
+    const goal = parseInt(tally.textContent, 10);
+    let v = 0;
+    tally.textContent = '0';
+    const tick = setInterval(() => {
+      tally.textContent = ++v;
+      if(v >= goal) clearInterval(tick);
+    }, 72);
+  }
+})();
 </script>
 </body>
 </html>
