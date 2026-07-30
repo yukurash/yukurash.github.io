@@ -45,6 +45,7 @@ ul,ol{list-style:none}
 :focus-visible{outline:2px solid var(--blue); outline-offset:3px}
 
 .wrap{max-width:1320px; margin:0 auto; padding:34px 24px 0}
+@media(max-width:700px){.wrap{padding:24px 16px 0}}
 
 /* everything arrives, nothing jitters */
 @keyframes rise{from{opacity:0; transform:translateY(14px)}to{opacity:1; transform:none}}
@@ -234,21 +235,29 @@ ul,ol{list-style:none}
 .keys b{font-weight:600; color:var(--ink)}
 @media(max-width:1080px){.keys{display:none}}
 
-/* ============ mobile ============ */
+/* ============ mobile ============
+   no panel fits beside the roster here, so each card carries its own drawer:
+   a tap opens it, and leaving the page is always an explicit link inside. */
+.on-narrow{display:none}
+.mdet{display:none}
+.cell .tg{display:none}
+
 @media(max-width:700px){
+  .on-wide{display:none}
+  .on-narrow{display:inline}
+
   .slab{padding:12px 12px 2px}
   .cell{
     padding:14px; grid-template-columns:40px minmax(0,1fr);
-    grid-template-areas:"em nm" "em ja" "cd cd"; margin-top:10px;
+    grid-template-areas:"em nm" "em ja" "cd cd" "tg tg"; margin-top:10px;
   }
   .cell:hover{transform:none; box-shadow:none}
   .grid > .cell:first-child{margin-top:0}
   .cell .em svg{width:34px}
-  .cell .nm{font-size:15px; padding-right:52px}
-  .cell .ja{font-size:12px; -webkit-line-clamp:3; line-clamp:3; padding-right:52px}
+  .cell:hover .em{transform:none}
+  .cell .nm{font-size:15px; padding-right:62px}
+  .cell .ja{font-size:12px; -webkit-line-clamp:3; line-clamp:3; padding-right:62px}
   .cell .cd{grid-area:cd; display:block; font-size:12.5px; line-height:1.8; color:var(--mute); margin-top:8px}
-  .cell[aria-current="true"]{transform:none; box-shadow:none}
-  .cell[aria-current="true"] .cd{color:var(--on-fill)}
   .cell .mk{position:absolute; top:14px; right:14px}
   .panel{display:none}
   .cell + .artlink{
@@ -256,6 +265,69 @@ ul,ol{list-style:none}
     border:2px solid var(--ink); border-top:0; padding:11px 14px; background:var(--paper);
     font-family:var(--f-mono); font-size:11px; letter-spacing:.1em; color:var(--red);
   }
+
+  /* the desktop selection is a different idea from the drawer, so a card that was
+     highlighted before the viewport narrowed goes back to looking untouched */
+  .cell[aria-current="true"]{transform:none; box-shadow:none}
+  .cell[aria-current="true"]:not([data-open]){background:var(--card); color:var(--ink); border-color:var(--ink)}
+  .cell[aria-current="true"]:not([data-open]) .ja{color:var(--mute)}
+  .cell[aria-current="true"]:not([data-open]) .id{color:var(--mute-d)}
+  .cell[aria-current="true"]:not([data-open]) .doc{color:var(--red); border-color:var(--red)}
+
+  /* ---- open card ---- */
+  .cell[data-open]{background:var(--fill); color:var(--paper); border-color:var(--fill)}
+  .cell[data-open] .ja{color:var(--on-fill)}
+  .cell[data-open] .id{color:var(--on-fill-2)}
+  .cell[data-open] .doc{color:var(--paper); border-color:var(--paper)}
+  .cell[data-open] .em{animation:pop .42s var(--ease)}
+  /* the drawer says all of this at length — no need to say it twice */
+  .cell[data-open] .cd{display:none}
+
+  .cell .tg{
+    grid-area:tg; display:flex; align-items:center; justify-content:flex-end; gap:7px;
+    margin-top:10px; padding-top:9px; border-top:1px dashed var(--line);
+    font-family:var(--f-mono); font-size:10.5px; letter-spacing:.14em; color:var(--mute);
+  }
+  .cell .tg i{font-style:normal; font-size:12px; line-height:1; transition:transform .22s var(--ease)}
+  .cell .tg .x{display:none}
+  .cell[data-open] .tg{color:var(--on-fill-2); border-top-color:rgba(255,255,255,.22)}
+  .cell[data-open] .tg .o{display:none}
+  .cell[data-open] .tg .x{display:inline}
+  .cell[data-open] .tg i{transform:rotate(180deg)}
+
+  /* ---- drawer ---- */
+  .cell[data-open] + .mdet{display:block; animation:rise .34s var(--ease) both}
+  .mdet{
+    border:2px solid var(--fill); border-top:0; background:var(--card);
+    padding:14px 14px 15px;
+  }
+  .mdet .mstats{display:grid; gap:1px; background:var(--line); margin-bottom:13px}
+  .mdet .mstats > div{background:var(--card); padding:9px 0}
+  .mdet dt{font-family:var(--f-mono); font-size:10px; letter-spacing:.14em; color:var(--mute)}
+  .mdet dd{font-size:13px; line-height:1.75; margin-top:3px; overflow-wrap:anywhere; white-space:pre-line}
+  .mdet dd.mono{font-family:var(--f-mono); font-size:11.5px}
+  .mdet .mdesc{font-size:13px; line-height:1.95; color:#2c2e33}
+  .mdet .mgo,
+  .mdet .mart{
+    display:grid; gap:3px; margin-top:12px; border:2px solid var(--ink); padding:12px 14px;
+  }
+  .mdet .mgo{background:var(--fill); border-color:var(--fill); color:var(--paper)}
+  .mdet .mgo .lb{font-family:var(--f-mono); font-size:12px; letter-spacing:.1em; font-weight:600}
+  .mdet .mgo .host{font-family:var(--f-mono); font-size:10.5px; letter-spacing:.04em; color:var(--on-fill)}
+  .mdet .mart .lb{font-family:var(--f-mono); font-size:10.5px; letter-spacing:.14em; color:var(--red)}
+  .mdet .mart .tt{font-size:12.5px; line-height:1.6}
+  .mdet .mgo:active,
+  .mdet .mart:active{transform:translate(1px,1px)}
+}
+
+/* the smallest phones still in use: give the name column back the margins */
+@media(max-width:360px){
+  .wrap{padding:20px 12px 0}
+  .slab{padding:10px 10px 2px}
+  .cell{padding:12px; grid-template-columns:34px minmax(0,1fr); gap:0 10px}
+  .cell .em svg{width:30px}
+  .cell .mk{top:12px; right:12px}
+  .mdet{padding:12px 12px 13px}
 }
 
 /* ============ reads ============ */
@@ -299,7 +371,7 @@ footer{
       <h2 class="sect-t"><span class="kick">制作物</span>WORKS</h2>
       <p class="sect-m"><b>12</b>PUBLISHED</p>
     </div>
-    <p class="sect-note">カードを<b>クリック</b>すると詳細が表示されます。<b>ダブルクリック</b>で選択プロジェクトが開きます。</p>
+    <p class="sect-note"><span class="on-wide">カードを<b>クリック</b>すると詳細が表示されます。<b>ダブルクリック</b>で選択プロジェクトが開きます。</span><span class="on-narrow">カードを<b>タップ</b>すると詳細が開きます。移動するときは、詳細の中の<b>リンク</b>から。</span></p>
 
     <div class="screen">
 
@@ -659,9 +731,12 @@ cells.forEach((c,i) => {
   c.addEventListener('focus', () => { if(panelLive()) paint(i); });
 
   c.addEventListener('click', e => {
-    /* mobile, Enter (detail 0) and open-in-new-tab modifiers all keep the plain link */
-    if(!panelLive() || e.detail === 0 || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    /* Enter (detail 0) and open-in-new-tab modifiers always keep the plain link */
+    if(e.detail === 0 || e.ctrlKey || e.metaKey || e.shiftKey) return;
     e.preventDefault();
+    /* no panel on narrow screens — the card opens its own drawer instead of
+       sending a first, undecided tap straight off the page */
+    if(!panelLive()){ toggle(i); return; }
     paint(i); c.focus(); reveal();
   });
 
@@ -725,7 +800,100 @@ addEventListener('keydown', e => {
   paint(next);
 });
 
-paint(0);
+/* ============ narrow screens ============
+   below 700px the detail panel is gone, so every card gets a drawer of its own
+   holding the same fields. one card is open at a time; the card itself never
+   navigates — the links inside the drawer do. */
+const el = (tag, cls, text) => {
+  const n = document.createElement(tag);
+  if(cls) n.className = cls;
+  if(text != null) n.textContent = text;
+  return n;
+};
+
+function drawer(c){
+  const d = el('div','mdet');
+
+  const dl = el('dl','mstats');
+  [['インストール先', c.dataset.into.split('|').join('\n'), 'mono'],
+   ['技術',           c.dataset.tech,                       ''],
+   ['状態',           '公開中',                              '']
+  ].forEach(([k,v,cls]) => {
+    const row = el('div');
+    row.append(el('dt',null,k), el('dd',cls,v));
+    dl.append(row);
+  });
+  d.append(dl, el('p','mdesc', c.dataset.desc));
+
+  const go = el('a','mgo');
+  go.href = c.href; go.target = '_blank'; go.rel = 'noopener';
+  go.append(el('span','lb','このページを開く ↗'), el('span','host', c.dataset.host));
+  d.append(go);
+
+  /* not every work has a write-up */
+  if(c.dataset.art){
+    const art = el('a','mart');
+    art.href = c.dataset.art; art.target = '_blank'; art.rel = 'noopener';
+    art.append(el('span','lb','解説記事 ↗'), el('span','tt', c.dataset.artt));
+    d.append(art);
+  }
+  return d;
+}
+
+/* the affordance: the card has to say that it opens rather than leaves */
+function tag(c){
+  const t = el('span','tg');
+  t.setAttribute('aria-hidden','true');
+  t.append(el('span','o','詳細'), el('span','x','閉じる'), el('i',null,'▾'));
+  c.append(t);
+}
+
+cells.forEach(c => { tag(c); c.after(drawer(c)); });
+
+let shown = -1;
+
+function shut(){
+  if(shown < 0) return;
+  cells[shown].removeAttribute('data-open');
+  cells[shown].setAttribute('aria-expanded','false');
+  shown = -1;
+}
+
+/* an opened drawer can push its own card off the top of the screen, so bring the
+   card back only when the pair no longer fits as it is */
+function keepInView(c){
+  const rc = c.getBoundingClientRect();
+  const rd = c.nextElementSibling.getBoundingClientRect();
+  if(rc.top >= 8 && rd.bottom <= innerHeight) return;
+  scrollTo({top: rc.top + scrollY - 12, behavior: calm.matches ? 'auto' : 'smooth'});
+}
+
+function toggle(i){
+  const again = shown === i;
+  shut();
+  if(again) return;               /* a second tap closes it */
+  const c = cells[i];
+  c.setAttribute('data-open','');
+  c.setAttribute('aria-expanded','true');
+  shown = i;
+  requestAnimationFrame(() => keepInView(c));
+}
+
+/* the two modes never overlap: aria-expanded is only true of a card that can
+   actually expand, and the roster only carries a selection while the panel is up */
+const narrow = matchMedia('(max-width:700px)');
+function mode(){
+  if(narrow.matches){
+    cells.forEach((c,i) => c.setAttribute('aria-expanded', i === shown ? 'true' : 'false'));
+  } else {
+    shut();
+    cells.forEach(c => c.removeAttribute('aria-expanded'));
+    paint(cur);
+  }
+}
+narrow.addEventListener('change', mode);
+
+if(narrow.matches) mode(); else paint(0);
 </script>
 <script>
 /* choreography: the panel loads its fields in rather than swapping them */
@@ -772,6 +940,8 @@ paint(0);
   }
 
   function fx(){
+    /* nothing to choreograph while the panel is off on narrow screens */
+    if(getComputedStyle(panel).display === 'none') return;
     panel.classList.remove('fx');
     void panel.offsetWidth;
     panel.classList.add('fx');
