@@ -724,22 +724,16 @@ function paint(i){
   P.ch.textContent   = c.dataset.ch;
   P.nm.textContent   = c.querySelector('.nm').textContent;
   P.ja.textContent   = c.dataset.ja;
-  P.into.textContent = c.dataset.into.split('|').join('\n');
+  P.into.textContent = c.dataset.into.split(',').join('\n');
   P.tech.textContent = c.dataset.tech;
   P.desc.textContent = c.dataset.desc;
   P.host.textContent = c.dataset.host;
   P.go.href          = c.href;
 
   /* not every work has a write-up — hide the whole row when there is none */
-  if(c.dataset.art){
-    P.art.href = c.dataset.art;
-    P.artt.textContent = c.dataset.artt;
-    P.art.hidden = false;
-  } else {
-    P.art.removeAttribute('href');
-    P.artt.textContent = '';
-    P.art.hidden = true;
-  }
+  P.art.href = c.dataset.art;
+  P.artt.textContent = c.dataset.artt;
+  P.art.hidden = false;
 
   P.nm.classList.remove('cut');
   void P.nm.offsetWidth;
@@ -820,7 +814,7 @@ addEventListener('keydown', e => {
   const next = nearest(e.key);
   if(next < 0) return;
   e.preventDefault();
-  cells[next].focus();          /* focus moves the cursor, so ENTER opens natively */
+  /* focus moves the cursor, so ENTER opens natively */
   paint(next);
 });
 
@@ -940,7 +934,6 @@ if(narrow.matches) mode(); else paint(0);
 
   /* the work's name arrives a character at a time */
   function type(el){
-    clearInterval(typing);
     const full = el.textContent;
     el.classList.add('typing');
     el.textContent = '';
